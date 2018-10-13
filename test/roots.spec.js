@@ -7,7 +7,7 @@ const database = require('knex')(config);
 
 chai.use(chaiHttp);
 
-describe('API ROUTES', () => {
+describe('API ROUTES vineyards', () => {
   beforeEach(done => {
     database.migrate.rollback().then(() => {
       database.migrate.latest().then(() => {
@@ -219,7 +219,7 @@ describe('API ROUTES', () => {
   });
 });
 
-describe('API ROUTES', () => {
+describe('API ROUTES wines', () => {
   beforeEach(done => {
     database.migrate.rollback().then(() => {
       database.migrate.latest().then(() => {
@@ -241,7 +241,8 @@ describe('API ROUTES', () => {
         response.body.message.should.be.a('string');
         response.body.data.should.be.a('array');
         response.body.data.length.should.equal(3);
- const wineExists = response.body.data.find(wine => wine.name === 'okWine');
+        
+        const wineExists = response.body.data.find(wine => wine.name === 'okWine');
         wineExists.should.have.property('name');
         wineExists.name.should.equal('okWine');
         wineExists.should.have.property('grape_type');
