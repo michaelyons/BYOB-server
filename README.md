@@ -1,71 +1,200 @@
-# 🍷 Vitis Vinifera API [![Build Status](https://travis-ci.org/michaelyons/BYOB-server.svg?branch=master)](https://travis-ci.org/michaelyons/BYOB-server)
+# 🍷 Vitis Vinifera API 
+
+[![Build Status](https://travis-ci.org/michaelyons/BYOB-server.svg?branch=master)](https://travis-ci.org/michaelyons/BYOB-server)
 
 ### Table of Contents
 * [Vineyards](#-vineyards)
 * [Wines](#-wines)
-___
 
-#####  Vineyards 
+##   <img src="https://www.shareicon.net/data/128x128/2016/09/16/829671_nature_512x512.png" width="30" height="30" /> Vineyards
 
+* GET - All Vineyards - ```/api/v1/vineyards```
 
-* GET - 🏘 All Vineyards - ```/api/v1/vineyards```
+Hitting this endpoint will return an array of vineyard objects
 
-Hitting this endpoint will return an array of 44 individual vineyard objects
-
-###### Example Response
+##### Example Response
 
 ```
-[ {
-id: 1, name: 'Camus Winery', 
-location: 'Yountville, CA', 
-date_established: 1968, 
-harvest: TRUE
-},
+[
+  {
+    id: 2,
+    name: "LAW FAMILY VINEYARD",
+    location: "somewhere",
+    date_established: 2008,
+    harvest: true
+  },
+  {
+    id: 3,
+    name: "HALTER RANCH VINEYARD",
+    location: "somewhere",
+    date_established: 0,
+    harvest: true
+  },
+  ...
+]
+```
+***
+* GET - Specific Vineyard - ```/api/v1/vineyards/:vineyard_id```
 
+Include a vineyard_id in request URL
+
+##### Example URL
+
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/vineyards/41`
+
+##### Example Response
+
+```
+{   
+  id: 41,
+  name: "DRY STACK",
+  location: "somewhere",
+  date_established: 0,
+  harvest: true
+}
+```
+
+***
+* POST - Add New Vineyard - ```/api/v1/vineyards```
+
+A correct request object needs to be sent with all parameters correctly filled in 
+
+##### Example Request Object
+
+```
 {
-id: 2, name: 'Beckman Vineyards', 
-location: 'San Ynez, CA', 
-date_established: 1988, 
-harvest: TRUE
-},
+  name: "DRY STACK",
+  location: "somewhere",
+  date_established: 0,
+  harvest: true
+}
 ```
+***
+* PUT - Edit existing vineyard data in database - ```/api/v1/vineyards/:vineyard_id```
 
-etc. 
+Send a complete vineyard object to edit information for a specific vineyard 
 
-* GET - 🏠 Specific Vineyard - ```/api/v1/vineyards/:vineyard_id```
+##### Example URL
 
-This endpoint will return a specific vineyard object. To do so, you need to add to the request url to include a vineyard_id integer
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/vineyards/41`
 
-###### Example URL
+##### Example Request Object (using GET vineyard response example from above)
 
-`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/vineyards/1`
+```
+{
+  name: "GREEN STACK",
+  location: "CA",
+  date_established: 2018,
+  harvest: false
+}
+```
+***
+* DELETE - Remove a Vineyard from database - `api/v1/vineyards/:vineyard_id'`
 
-###### Example Response
+##### Example URL
 
-`{
-id: 1, name: 'Camus Winery', 
-location: 'Yountville, CA', 
-date_established: 1968, 
-harvest: TRUE
-}`
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/vineyards/41`
 
-* POST - Add  1 New Vineyard - ```/api/v1/vineyards```
+##  🍇 Wines
 
-Sending a request to this end point creates a new vineyard in the database. To successfully add a new vineyard, a correct request object needs to be sent with all parameters correctly filled in. An affirmative message is sent to indicate when a vineyard has been successfully added
+* GET - All Wines - `/api/v1/wines`
 
-###### Example Request Object
+Hitting this endpoint will return to you an array of wine objects
 
-`{name: 'mike vineyard', location: 'Santa Barbara, CA', date_established: 1991, harvest: TRUE}`
+```
+[
+  {
+    id: 1,
+    name: "Law Estate Wines - Intrepid",
+    grape_type: "N/A",
+    color: "N/A",
+    production_year: 2011,
+    score: 92,
+    price: "$67",
+    vineyard_id: 2
+  },
+  {
+    id: 2,
+    name: "Law Estate Wines - The Nines",
+    grape_type: "N/A",
+    color: "N/A",
+    production_year: 2011,
+    score: 95,
+    price: "$85",
+    vineyard_id: 2
+  },
+  ...
+]
+```
+***
+* GET - Specific Wine - `api/v1/wines/:wine_id`
 
-###### Example Response for Correct Database addition
+Include a wine_id in request URL
 
-`Vineyards successfully added!`
+##### Example URL
 
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/wines/17`
 
-* PUT - Edit specific existing vineyard data in database - ```/api/vineyards/:vineyard_id```
+##### Example Response
 
+```
+{
+  id: 17,
+  name: "Nebbiolo",
+  grape_type: "N/A",
+  color: "N/A",
+  production_year: 2009,
+  score: 0,
+  price: "$28",
+  vineyard_id: 6
+}
+```
+***
+* POST - Add New Wine - ```/api/v1/:vineyard_id/wines```
 
+A correct request object needs to be sent with all parameters correctly filled in 
 
+##### Example URL
 
-#####  Wines 
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/6/wines`
 
+##### Example Request Object
+
+```
+{
+  name: "Nebbiolo",
+  grape_type: "Pinot Gris",
+  color: "white",
+  production_year: 2009,
+  score: 90,
+  price: "$28"
+}
+```
+***
+* PUT - Edit existing wines data in database - ```/api/v1/wines/:wine_id```
+
+Send a complete wine object to edit information for a specific wine 
+
+##### Example URL
+
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/wines/17`
+
+##### Example Request Object (using GET wine response example from above)
+
+```
+{
+  name: "Nebbiolo Supreme",
+  grape_type: "Nebbiolo",
+  color: "Red",
+  production_year: 2009,
+  score: 90,
+  price: "$48",
+  vineyard_id: 6
+}
+```
+***
+* DELETE - Remove a Winery from database - `/api/v1/wines/:wine_id`
+
+##### Example URL
+
+`https://ml-tk-vitis-vinifera.herokuapp.com/api/v1/wines/6`
