@@ -144,6 +144,11 @@ const deleteVineyard = (request, response) => {
 
 const queryWines = (query) => {
   const knexQuery = database('wines');
+
+  if (query.vineyard_id) {
+    knexQuery.where('vineyard_id', query.vineyard_id);
+  }
+
   if (query.name) {
     knexQuery.where('name', 'like', `%${query.name}%`);
   }
@@ -172,8 +177,8 @@ const queryWines = (query) => {
 }
 
 const getAllWines = (request, response) => {
-  const { name, grape_type, color, production_year, score, price } = request.query;
-  queryWines({ name, grape_type, color, production_year, score, price })
+  const { name, grape_type, color, production_year, score, price, vineyard_id } = request.query;
+  queryWines({ name, grape_type, color, production_year, score, price, vineyard_id })
     .then(wines => {
       if (!wines.length) {
         response.status(404).json({
